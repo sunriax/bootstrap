@@ -24,10 +24,12 @@ After adding/installing the BootstrapLib in a project it can be used to bootstra
 
 ## Structure
 
-### Static functions
+### Namespace RaGae.BootstrapLib.Loader
 
-* `Bootstrap.LoadConfig(file, optional, reload)`
-* `Bootstrap.LoadConfigSection(file, section, optional, reload)`
+#### Static functions
+
+* `Loader.LoadConfig(file, optional, reload)`
+* `Loader.LoadConfigSection(file, section, optional, reload)`
 
 ---
 
@@ -42,8 +44,8 @@ To bind config from file to a provided class.
 Filename for specific *.json file to load.
 
 ``` csharp
-T config = Bootstrap.LoadConfig<T>("Filename", "...", "...");
-T config = Bootstrap.LoadConfigSection<T>("Filename", "..." "...", "...");
+T config = Loader.LoadConfig<T>("Filename", "...", "...");
+T config = Loader.LoadConfigSection<T>("Filename", "..." "...", "...");
 ```
 
 #### Section (only LoadConfigSection)
@@ -51,7 +53,7 @@ T config = Bootstrap.LoadConfigSection<T>("Filename", "..." "...", "...");
 This parameter defines in which section in the json file the configuration can be found. The parameter is not necessary and can be omitted.
 
 ``` csharp
-T config = Bootstrap.LoadConfigSection<T>("...", "DemoConfig" "...", "...");
+T config = Loader.LoadConfigSection<T>("...", "DemoConfig" "...", "...");
 ```
 
 #### Optional
@@ -59,8 +61,8 @@ T config = Bootstrap.LoadConfigSection<T>("...", "DemoConfig" "...", "...");
 This parameter defines if the configuration is optional (can be loaded but must not be loaded!). The parameter is not necessary and can be omitted.
 
 ``` csharp
-T config = Bootstrap.LoadConfig<T>("Filename", false/true, "...");
-T config = Bootstrap.LoadConfigSection<T>("...", "...", false/true, "...");
+T config = Loader.LoadConfig<T>("Filename", false/true, "...");
+T config = Loader.LoadConfigSection<T>("...", "...", false/true, "...");
 ```
 
 #### Reload
@@ -68,8 +70,8 @@ T config = Bootstrap.LoadConfigSection<T>("...", "...", false/true, "...");
 This parameter defines if the configuration should be reloaded at runtime if parameters are changed. The parameter is not necessary and can be omitted.
 
 ``` csharp
-T config = Bootstrap.LoadConfig<T>("Filename", "...", false/true);
-T config = Bootstrap.LoadConfigSection<T>("...", "...", "...", false/true);
+T config = Loader.LoadConfig<T>("Filename", "...", false/true);
+T config = Loader.LoadConfigSection<T>("...", "...", "...", false/true);
 ```
 
 ### Example
@@ -101,7 +103,7 @@ T config = Bootstrap.LoadConfigSection<T>("...", "...", "...", false/true);
 #### **`Application.cs`**
 ``` csharp
 using System;
-using RaGae.BootstrapLib;
+using RaGae.BootstrapLib.Loader;
 
 namespace Project
 {
@@ -110,10 +112,10 @@ namespace Project
         try
         {
             // Appsettings with no configuration section
-            DemoConfig demo = Bootstrap.LoadConfig<DemoConfig>("appsettings.nosection.json", false, false);
+            DemoConfig demo = Loader.LoadConfig<DemoConfig>("appsettings.nosection.json", false, false);
 
             // Appsettings with configuration section
-            DemoConfig demo = Bootstrap.LoadConfigSection<DemoConfig>("appsettings.section.json", false, false);
+            DemoConfig demo = Loader.LoadConfigSection<DemoConfig>("appsettings.section.json", false, false);
         }
         catch(Exception ex)
         {
