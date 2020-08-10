@@ -29,31 +29,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appsettings.empty.array.section.json">
+    <None Update="Loader\appsettings.empty.array.section.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="appsettings.empty.array.nosection.json">
+    <None Update="Loader\appsettings.empty.array.nosection.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="appsettings.empty.array.nosection.failing.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="appsettings.nosection.failing.json">
+    <None Update="Loader\appsettings.nosection.failing.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="appsettings.array.nosection.failing.json">
+    <None Update="Loader\appsettings.array.nosection.failing.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="appsettings.section.failing.json">
+    <None Update="Loader\appsettings.section.failing.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="appsettings.array.section.failing.json">
+    <None Update="Loader\appsettings.array.section.failing.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="appsettings.nosection.json">
+    <None Update="Loader\appsettings.nosection.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="appsettings.section.json">
+    <None Update="Loader\appsettings.section.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

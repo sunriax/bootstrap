@@ -1,4 +1,4 @@
-using RaGae.BootstrapLib;
+using RaGae.BootstrapLib.Loader;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,8 +9,10 @@ using Xunit.Sdk;
 
 namespace BootstrapLibTest
 {
-    public class BootstrapTest
+    public class LoaderTest
     {
+        private static string loaderPath = "Loader";
+
         private static IEnumerable<(bool, bool)> defaultOptions = new List<(bool, bool)>()
         {
             (false, false),
@@ -24,10 +26,10 @@ namespace BootstrapLibTest
 
             switch (function)
             {
-                case nameof(Bootstrap.LoadConfig):
+                case nameof(Loader.LoadConfig):
                     path = "*.nosection.json";
                     break;
-                case nameof(Bootstrap.LoadConfigSection):
+                case nameof(Loader.LoadConfigSection):
                     path = "*.section.json";
                     break;
                 default:
@@ -36,17 +38,17 @@ namespace BootstrapLibTest
 
             foreach ((bool optional, bool reload) item in defaultOptions)
             {
-                foreach (string file in Directory.GetFiles(Directory.GetCurrentDirectory(), path))
+                foreach (string file in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), loaderPath), path))
                 {
                     switch (function)
                     {
-                        case nameof(Bootstrap.LoadConfig):
-                            yield return new object[] { Path.GetFileName(file), item.optional, item.reload };
+                        case nameof(Loader.LoadConfig):
+                            yield return new object[] { Path.Combine(loaderPath, Path.GetFileName(file)), item.optional, item.reload };
                             yield return new object[] { file, item.optional, item.reload };
                             break;
-                        case nameof(Bootstrap.LoadConfigSection):
-                            yield return new object[] { Path.GetFileName(file), null, item.optional, item.reload };
-                            yield return new object[] { Path.GetFileName(file), nameof(DemoConfig), item.optional, item.reload };
+                        case nameof(Loader.LoadConfigSection):
+                            yield return new object[] { Path.Combine(loaderPath, Path.GetFileName(file)), null, item.optional, item.reload };
+                            yield return new object[] { Path.Combine(loaderPath, Path.GetFileName(file)), nameof(DemoConfig), item.optional, item.reload };
                             yield return new object[] { file, null, item.optional, item.reload };
                             yield return new object[] { file, nameof(DemoConfig), item.optional, item.reload };
                             break;
@@ -58,10 +60,10 @@ namespace BootstrapLibTest
         }
 
         [Theory]
-        [MemberData(nameof(GetConfiguration_Passing), nameof(Bootstrap.LoadConfig))]
+        [MemberData(nameof(GetConfiguration_Passing), nameof(Loader.LoadConfig))]
         public void LoadConfig_Passing(string file, bool optional, bool reload)
         {
-            DemoConfig demo = Bootstrap.LoadConfig<DemoConfig>(file, optional, reload);
+            DemoConfig demo = Loader.LoadConfig<DemoConfig>(file, optional, reload);
 
             Assert.Equal(1.ToString(), demo.Value.ToString());
 
@@ -76,10 +78,10 @@ namespace BootstrapLibTest
         }
 
         [Theory]
-        [MemberData(nameof(GetConfiguration_Passing), nameof(Bootstrap.LoadConfigSection))]
+        [MemberData(nameof(GetConfiguration_Passing), nameof(Loader.LoadConfigSection))]
         public void LoadConfigSection_Passing(string file, string section, bool optional, bool reload)
         {
-            DemoConfig demo = Bootstrap.LoadConfigSection<DemoConfig>(file, section, optional, reload);
+            DemoConfig demo = Loader.LoadConfigSection<DemoConfig>(file, section, optional, reload);
 
             Assert.Equal(1.ToString(), demo.Value.ToString());
 
@@ -99,10 +101,10 @@ namespace BootstrapLibTest
 
             switch (function)
             {
-                case nameof(Bootstrap.LoadConfig):
+                case nameof(Loader.LoadConfig):
                     path = "*.nosection.failing.json";
                     break;
-                case nameof(Bootstrap.LoadConfigSection):
+                case nameof(Loader.LoadConfigSection):
                     path = "*.section.failing.json";
                     break;
                 default:
@@ -111,17 +113,17 @@ namespace BootstrapLibTest
 
             foreach ((bool optional, bool reload) item in defaultOptions)
             {
-                foreach (string file in Directory.GetFiles(Directory.GetCurrentDirectory(), path))
+                foreach (string file in Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), loaderPath), path))
                 {
                     switch (function)
                     {
-                        case nameof(Bootstrap.LoadConfig):
-                            yield return new object[] { Path.GetFileName(file), item.optional, item.reload };
+                        case nameof(Loader.LoadConfig):
+                            yield return new object[] { Path.Combine(loaderPath, Path.GetFileName(file)), item.optional, item.reload };
                             yield return new object[] { file, item.optional, item.reload };
                             break;
-                        case nameof(Bootstrap.LoadConfigSection):
-                            yield return new object[] { Path.GetFileName(file), null, item.optional, item.reload };
-                            yield return new object[] { Path.GetFileName(file), nameof(DemoConfig), item.optional, item.reload };
+                        case nameof(Loader.LoadConfigSection):
+                            yield return new object[] { Path.Combine(loaderPath, Path.GetFileName(file)), null, item.optional, item.reload };
+                            yield return new object[] { Path.Combine(loaderPath, Path.GetFileName(file)), nameof(DemoConfig), item.optional, item.reload };
                             yield return new object[] { file, null, item.optional, item.reload };
                             yield return new object[] { file, nameof(DemoConfig), item.optional, item.reload };
                             break;
@@ -133,12 +135,12 @@ namespace BootstrapLibTest
         }
 
         [Theory]
-        [MemberData(nameof(GetConfiguration_Failing), nameof(Bootstrap.LoadConfig))]
+        [MemberData(nameof(GetConfiguration_Failing), nameof(Loader.LoadConfig))]
         public void LoadConfig_Failing(string file, bool optional, bool reload)
         {
             DemoConfig demo = null;
 
-            Exception ex = Assert.Throws<TargetInvocationException>(() => demo = Bootstrap.LoadConfig<DemoConfig>(file, optional, reload));
+            Exception ex = Assert.Throws<TargetInvocationException>(() => demo = Loader.LoadConfig<DemoConfig>(file, optional, reload));
 
             Assert.Null(demo);
             Assert.NotNull(ex.InnerException);
@@ -150,12 +152,12 @@ namespace BootstrapLibTest
         }
 
         [Theory]
-        [MemberData(nameof(GetConfiguration_Failing), nameof(Bootstrap.LoadConfigSection))]
+        [MemberData(nameof(GetConfiguration_Failing), nameof(Loader.LoadConfigSection))]
         public void LoadConfigSection_Failing(string file, string section, bool optional, bool reload)
         {
             DemoConfig demo = null;
 
-            Exception ex = Assert.Throws<TargetInvocationException>(() => demo = Bootstrap.LoadConfigSection<DemoConfig>(file, section, optional, reload));
+            Exception ex = Assert.Throws<TargetInvocationException>(() => demo = Loader.LoadConfigSection<DemoConfig>(file, section, optional, reload));
 
             Assert.Null(demo);
             Assert.NotNull(ex.InnerException);
@@ -178,11 +180,11 @@ namespace BootstrapLibTest
             {
                 switch (function)
                 {
-                    case nameof(Bootstrap.LoadConfig):
+                    case nameof(Loader.LoadConfig):
                         yield return new object[] { "not.existing.json", item.optional, item.reload };
                         yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), item.optional, item.reload };
                         break;
-                    case nameof(Bootstrap.LoadConfigSection):
+                    case nameof(Loader.LoadConfigSection):
                         yield return new object[] { "not.existing.json", null, item.optional, item.reload };
                         yield return new object[] { "not.existing.json", nameof(DemoConfig), item.optional, item.reload };
                         yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), null, item.optional, item.reload };
@@ -195,18 +197,18 @@ namespace BootstrapLibTest
         }
 
         [Theory]
-        [MemberData(nameof(GetConfigurationOptional_Passing), nameof(Bootstrap.LoadConfig))]
+        [MemberData(nameof(GetConfigurationOptional_Passing), nameof(Loader.LoadConfig))]
         public void LoadConfigWithNonExistingFileButOptional_Passing(string file, bool optional, bool reload)
         {
-            DemoConfig demo = Bootstrap.LoadConfig<DemoConfig>(file, optional, reload);
+            DemoConfig demo = Loader.LoadConfig<DemoConfig>(file, optional, reload);
             Assert.Null(demo);
         }
 
         [Theory]
-        [MemberData(nameof(GetConfigurationOptional_Passing), nameof(Bootstrap.LoadConfigSection))]
+        [MemberData(nameof(GetConfigurationOptional_Passing), nameof(Loader.LoadConfigSection))]
         public void LoadConfigSectionWithNonExistingFileButOptional_Passing(string file, string section, bool optional, bool reload)
         {
-            DemoConfig demo = Bootstrap.LoadConfigSection<DemoConfig>(file, section, optional, reload);
+            DemoConfig demo = Loader.LoadConfigSection<DemoConfig>(file, section, optional, reload);
 
             Assert.Equal(0.ToString(), demo.Value.ToString());
             Assert.Null(demo.Array);
@@ -224,11 +226,11 @@ namespace BootstrapLibTest
             {
                 switch (function)
                 {
-                    case nameof(Bootstrap.LoadConfig):
+                    case nameof(Loader.LoadConfig):
                         yield return new object[] { "not.existing.json", item.optional, item.reload };
                         yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), item.optional, item.reload };
                         break;
-                    case nameof(Bootstrap.LoadConfigSection):
+                    case nameof(Loader.LoadConfigSection):
                         yield return new object[] { "not.existing.json", null, item.optional, item.reload };
                         yield return new object[] { "not.existing.json", nameof(DemoConfig), item.optional, item.reload };
                         yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), null, item.optional, item.reload };
@@ -241,12 +243,12 @@ namespace BootstrapLibTest
         }
 
         [Theory]
-        [MemberData(nameof(GetConfigurationOptional_Failing), nameof(Bootstrap.LoadConfig))]
+        [MemberData(nameof(GetConfigurationOptional_Failing), nameof(Loader.LoadConfig))]
         public void LoadConfigWithNonExistingFile_Failing(string file, bool optional, bool reload)
         {
             DemoConfig demo = null;
 
-            Exception ex = Assert.Throws<FileNotFoundException>(() => demo = Bootstrap.LoadConfig<DemoConfig>(file, optional, reload));
+            Exception ex = Assert.Throws<FileNotFoundException>(() => demo = Loader.LoadConfig<DemoConfig>(file, optional, reload));
 
             Assert.Null(demo);
             Assert.Null(ex.InnerException);
@@ -258,12 +260,12 @@ namespace BootstrapLibTest
         }
 
         [Theory]
-        [MemberData(nameof(GetConfigurationOptional_Failing), nameof(Bootstrap.LoadConfigSection))]
+        [MemberData(nameof(GetConfigurationOptional_Failing), nameof(Loader.LoadConfigSection))]
         public void LoadConfigSectionWithNonExistingFile_Failing(string file, string section, bool optional, bool reload)
         {
             DemoConfig demo = null;
 
-            Exception ex = Assert.Throws<FileNotFoundException>(() => demo = Bootstrap.LoadConfigSection<DemoConfig>(file, section, optional, reload));
+            Exception ex = Assert.Throws<FileNotFoundException>(() => demo = Loader.LoadConfigSection<DemoConfig>(file, section, optional, reload));
 
             Assert.Null(demo);
             Assert.Null(ex.InnerException);
