@@ -45,5 +45,5 @@ deploy:
   on:
     tags: true
 
-#after_deploy:
-#  - dotnet nuget push ./output/RaGae.Bootstrap.*.nupkg -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
+after_deploy:
+  - dotnet nuget push ./output/RaGae.Bootstrap.*.nupkg -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
