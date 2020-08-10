@@ -1,0 +1,194 @@
+[![Version: 1.0 Release](https://img.shields.io/badge/Version-1.0%20Release-green.svg)](https://github.com/sunriax) [![Build Status](https://www.travis-ci.org/sunriax/bootstrap.svg?branch=master)](https://www.travis-ci.org/sunriax/bootstrap) [![codecov](https://codecov.io/gh/sunriax/bootstrap/branch/master/graph/badge.svg)](https://codecov.io/gh/sunriax/bootstrap) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+# BootstrapLib
+
+## Description:
+
+Base class for bootstrapping applications. The library will be used in whole RaGae namespace (if necessary!).
+
+---
+
+## Installation
+
+To install BootstrapLib it is possible to download library [[zip](https://github.com/sunriax/bootstrap/releases/latest/download/Bootstrap.zip) | [gzip](https://github.com/sunriax/bootstrap/releases/latest/download/Bootstrap.tar.gz)] or install it via nuget.
+
+```
+PM> Install-Package RaGae.Bootstrap
+```
+
+---
+
+## Usage
+
+After adding/installing the BootstrapLib in a project it can be used to bootstrap the application.
+
+## Structure
+
+### Static functions
+
+* `Bootstrap.LoadConfig(file, optional, reload)`
+* `Bootstrap.LoadConfigSection(file, section, optional, reload)`
+
+---
+
+## LoadConfig/LoadConfigSection
+
+To bind config from file to a provided class.
+
+### Parameter
+
+#### File
+
+Filename for specific *.json file to load.
+
+``` csharp
+T config = Bootstrap.LoadConfig<T>("Filename", "...", "...");
+T config = Bootstrap.LoadConfigSection<T>("Filename", "..." "...", "...");
+```
+
+#### Section (only LoadConfigSection)
+
+This parameter defines in which section in the json file the configuration can be found. The parameter is not necessary and can be omitted.
+
+``` csharp
+T config = Bootstrap.LoadConfigSection<T>("...", "DemoConfig" "...", "...");
+```
+
+#### Optional
+
+This parameter defines if the configuration is optional (can be loaded but must not be loaded!). The parameter is not necessary and can be omitted.
+
+``` csharp
+T config = Bootstrap.LoadConfig<T>("Filename", false/true, "...");
+T config = Bootstrap.LoadConfigSection<T>("...", "...", false/true, "...");
+```
+
+#### Reload
+
+This parameter defines if the configuration should be reloaded at runtime if parameters are changed. The parameter is not necessary and can be omitted.
+
+``` csharp
+T config = Bootstrap.LoadConfig<T>("Filename", "...", false/true);
+T config = Bootstrap.LoadConfigSection<T>("...", "...", "...", false/true);
+```
+
+### Example
+
+#### **`appsettings.section.json`** with section
+
+``` json
+{
+  "DemoConfig": {
+    "Value": 1,
+    "Array": [
+      { "Value": 1 }
+    ]
+  }
+}
+```
+
+#### **`appsettings.nosection.json`** without section
+
+``` json
+{
+  "Value": 1,
+  "Array": [
+    { "Value": 1 }
+  ]
+}
+```
+
+#### **`Application.cs`**
+``` csharp
+using System;
+using RaGae.BootstrapLib;
+
+namespace Project
+{
+    public Application(string configFile)
+    {
+        try
+        {
+            // Appsettings with no configuration section
+            DemoConfig demo = Bootstrap.LoadConfig<DemoConfig>("appsettings.nosection.json", false, false);
+
+            // Appsettings with configuration section
+            DemoConfig demo = Bootstrap.LoadConfigSection<DemoConfig>("appsettings.section.json", false, false);
+        }
+        catch(Exception ex)
+        {
+            // ...
+        }
+    }
+}
+```
+
+#### **`DemoConfig.cs`**
+``` csharp
+namespace Project
+{
+    public enum ErrorCode
+    {
+        OK,
+        ERROR,
+        TEST
+    }
+
+    public class DemoConfig
+    {
+        private IEnumerable<DemoArrayConfig> array;
+        private int value;
+
+        public int Value
+        {
+            get => this.value;
+            set
+            {
+                if (value < 1)
+                    throw new ArgumentException(nameof(DemoConfig));
+                this.value = value;
+            }
+        }
+
+        public IEnumerable<DemoArrayConfig> Array
+        {
+            get => this.array;
+            set
+            {
+                value.ToList().ForEach(e =>
+                {
+                    if (e.Error != ErrorCode.OK)
+                        throw new ArgumentException(nameof(DemoArrayConfig));
+                });
+
+                this.array = value;
+            }
+        }
+    }
+
+    public class DemoArrayConfig
+    {
+        private int value;
+
+        public int Value
+        {
+            get => this.value;
+            set
+            {
+                this.Error = ErrorCode.OK;
+
+                if (value < 1)
+                    this.Error = ErrorCode.ERROR;
+
+                this.value = value;
+            }
+        }
+
+        public ErrorCode Error { get; private set; }
+    }
+}
+```
+
+---
+
+**R. GÄCHTER**

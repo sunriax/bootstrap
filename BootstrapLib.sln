@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BootstrapLib", "BootstrapLib\BootstrapLib.csproj", "{AB2909CA-3D41-46FA-B743-BD71EBE19DD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootstrapLibTest", "BootstrapLibTest\BootstrapLibTest.csproj", "{DEE99A31-CB0B-462A-9440-A764CA1E184E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB2909CA-3D41-46FA-B743-BD71EBE19DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB2909CA-3D41-46FA-B743-BD71EBE19DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB2909CA-3D41-46FA-B743-BD71EBE19DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB2909CA-3D41-46FA-B743-BD71EBE19DD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEE99A31-CB0B-462A-9440-A764CA1E184E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE99A31-CB0B-462A-9440-A764CA1E184E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE99A31-CB0B-462A-9440-A764CA1E184E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE99A31-CB0B-462A-9440-A764CA1E184E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {364FE85A-2330-4829-A503-B5B0CC79755A}
+	EndGlobalSection
+EndGlobal
