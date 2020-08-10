@@ -181,14 +181,14 @@ namespace BootstrapLibTest
                 switch (function)
                 {
                     case nameof(Bootstrap.LoadConfig):
-                        yield return new object[] { "not.existing.json", item.optional, item.reload };
-                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), item.optional, item.reload };
+                        yield return new object[] { "not.1.existing.json", item.optional, item.reload };
+                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.2.existing.json"), item.optional, item.reload };
                         break;
                     case nameof(Bootstrap.LoadConfigSection):
-                        yield return new object[] { "not.existing.json", null, item.optional, item.reload };
-                        yield return new object[] { "not.existing.json", nameof(DemoConfig), item.optional, item.reload };
-                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), null, item.optional, item.reload };
-                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), nameof(DemoConfig), item.optional, item.reload };
+                        yield return new object[] { "not.1.existing.json", null, item.optional, item.reload };
+                        yield return new object[] { "not.1.existing.json", nameof(DemoConfig), item.optional, item.reload };
+                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.2.existing.json"), null, item.optional, item.reload };
+                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.2.existing.json"), nameof(DemoConfig), item.optional, item.reload };
                         break;
                     default:
                         throw new XunitException("TILT: should not be reached!");
@@ -229,14 +229,14 @@ namespace BootstrapLibTest
                 switch (function)
                 {
                     case nameof(Bootstrap.LoadConfig):
-                        yield return new object[] { "not.existing.json", item.optional, item.reload };
-                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), item.optional, item.reload };
+                        yield return new object[] { "not.1.existing.json", item.optional, item.reload };
+                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.2.existing.json"), item.optional, item.reload };
                         break;
                     case nameof(Bootstrap.LoadConfigSection):
-                        yield return new object[] { "not.existing.json", null, item.optional, item.reload };
-                        yield return new object[] { "not.existing.json", nameof(DemoConfig), item.optional, item.reload };
-                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), null, item.optional, item.reload };
-                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.existing.json"), nameof(DemoConfig), item.optional, item.reload };
+                        yield return new object[] { "not.1.existing.json", null, item.optional, item.reload };
+                        yield return new object[] { "not.1.existing.json", nameof(DemoConfig), item.optional, item.reload };
+                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.2.existing.json"), null, item.optional, item.reload };
+                        yield return new object[] { Path.Combine(Directory.GetCurrentDirectory(), "not.2.existing.json"), nameof(DemoConfig), item.optional, item.reload };
                         break;
                     default:
                         throw new XunitException("TILT: should not be reached!");
