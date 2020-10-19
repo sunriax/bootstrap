@@ -23,15 +23,15 @@ script:
     then
       set -e
       dotnet build -c Release
-      dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*" 
+      dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*" /p:excludebyfile="**/*.Designer.cs" 
       bash <(curl -s https://codecov.io/bash) -Z
     fi
 
 before_deploy:
   - set -e
   - dotnet build -c Release -o ./output
-  - zip ./Bootstrap.zip ./output/BootstrapLib.dll ./output/BootstrapLib.pdb ./output/BootstrapLib.deps.json
-  - tar cfvz ./Bootstrap.tar.gz ./output/BootstrapLib.dll ./output/BootstrapLib.pdb ./output/BootstrapLib.deps.json
+  - zip ./Bootstrap.zip ./output
+  - tar cfvz ./Bootstrap.tar.gz ./output
 
 deploy:
   provider: releases
@@ -46,4 +46,4 @@ deploy:
     tags: true
 
 after_deploy:
-  - dotnet nuget push ./output/RaGae.Bootstrap.*.nupkg -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
+  - dotnet nuget push ./output/'*.nupkg' -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
