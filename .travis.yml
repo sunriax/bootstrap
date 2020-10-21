@@ -1,6 +1,8 @@
 # Travis CI build pipeline
 # --------------------------------------------
 
+os: linux
+dist: xenial
 language: csharp
 solution: BootstrapLib.sln
 mono: none
@@ -30,7 +32,7 @@ script:
 before_deploy:
   - set -e
   - dotnet build -c Release -o ./output
-  - zip ./Bootstrap.zip ./output
+  - zip ./Bootstrap.zip ./output/*
   - tar cfvz ./Bootstrap.tar.gz ./output
 
 deploy:
@@ -40,10 +42,10 @@ deploy:
   file:
     - "./Bootstrap.zip"
     - "./Bootstrap.tar.gz"
-    - "./output/BootstrapLib.dll"
+    - "./output/RaGae.BootstrapLib.dll"
   skip_cleanup: true
   on:
     tags: true
 
 after_deploy:
-  - dotnet nuget push ./output/'*.nupkg' -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
+  - dotnet nuget push --skip-duplicate ./output/'*.nupkg' -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
