@@ -31,9 +31,11 @@ script:
 
 before_deploy:
   - set -e
-  - dotnet build -c Release -o ./output
-  - zip ./Bootstrap.zip ./output/*
-  - tar cfvz ./Bootstrap.tar.gz ./output
+  #- dotnet build -c Release -o ./output
+  - dotnet publish BootstrapLib.sln -c Release -o output
+  - dotnet pack BootstrapLib.sln -c Release -o nuget
+  - zip ./Bootstrap.zip ./output/* ./nuget/*
+  - tar cfvz ./Bootstrap.tar.gz ./output ./nuget
 
 deploy:
   provider: releases
@@ -48,4 +50,4 @@ deploy:
     tags: true
 
 after_deploy:
-  - dotnet nuget push --skip-duplicate ./output/'*.nupkg' -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
+  - dotnet nuget push --skip-duplicate ./nuget/'*.nupkg' -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
