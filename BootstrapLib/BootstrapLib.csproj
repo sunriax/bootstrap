@@ -15,7 +15,7 @@
     <Copyright>(c) 2020 G.Raf</Copyright>
     <PackageProjectUrl>https://github.com/sunriax/argument</PackageProjectUrl>
     <PackageTags>update, dynamic, console, ragae, sunriax, 0x007E</PackageTags>
-    <Version>0.0.2</Version>
+    <Version>0.1.0</Version>
     <Description>Library that supports application startup.</Description>
     <PackageId>RaGae.Bootstrap</PackageId>
     <RepositoryUrl>https://github.com/sunriax/bootstrap.git</RepositoryUrl>
