@@ -76,6 +76,8 @@ T config = Loader.LoadConfigSection<T>("...", "...", "...", false/true);
 
 ### Example
 
+Information how to handle a project with BootstrapLib can be found in [Wiki](https://github.com/sunriax/bootstrap/wiki).
+
 #### **`appsettings.section.json`** with section
 
 ``` json
@@ -107,7 +109,7 @@ using RaGae.BootstrapLib.Loader;
 
 namespace Project
 {
-    public Application(string configFile)
+    public LoadConfig()
     {
         try
         {
@@ -115,7 +117,10 @@ namespace Project
             DemoConfig demo = Loader.LoadConfig<DemoConfig>("appsettings.nosection.json", false, false);
 
             // Appsettings with configuration section
-            DemoConfig demo = Loader.LoadConfigSection<DemoConfig>("appsettings.section.json", false, false);
+            DemoConfig demo = Loader.LoadConfigSection<DemoConfig>("appsettings.section.json", nameof(DemoConfig), false, false);
+
+            string demoValue = demo.Value;
+            string demoArrayValue = demo.ElementAt(0).Value;
         }
         catch(Exception ex)
         {
